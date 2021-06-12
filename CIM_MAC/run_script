@@ -1,0 +1,19 @@
+#!/bin/csh
+
+source ./generate_sweep > nl0.scs
+
+mkdir sim
+cd sim
+while true
+do
+  read -r f7 <&8 || break
+  mkdir "$f7" 8<&-
+  cd "$f7" 8<&-
+  cp -f ../../sweep_run_script .
+  cp -f ../../generate_sweep_netlist .
+  cp -f ../../sweep_array .
+  source ./sweep_run_script $1 $f7 8<&-
+  sleep 2
+  cd ..
+done 8<../nl0.scs
+cd ..

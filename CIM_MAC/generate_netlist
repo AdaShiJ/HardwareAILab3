@@ -1,0 +1,23 @@
+#!bin/csh
+
+echo "#!bin/csh"
+echo "#"
+echo ""
+echo "parameters factor1=$factor len=40.0n lenAmp1=90.0n lenAmp2=90.0n \
+	mgate=(15.0*$factor) mdiode=(2.2*$factor) mpdiode=(3.7*$factor) \
+	mps=1 mpRefBias=1 mnRefBias=1.44 \
+	mpRef1=1.43 mnRef1=1 \
+	mpRef2=2.15 mnRef2=1 \
+	mpAmp1=(1.0*$factor) mnAmp1=(4.1*$factor) mngAmp1=(4.4*$factor) \
+	mpAmp2=(1.0*$factor) mnAmp2=(2.0*$factor) mngAmp2=(4.4*$factor) \
+	mp=1 mn=1 mns=1 \
+	non=$nummer \
+	ResOFF=100k ResON=10k Rows=$size \
+	mp2n=6 mn2n=1 \
+	mpinv=2.5 mninv=1 \
+	mpcas=2.5 mncas=1 \
+	mpass=1 mnass=1 \
+	end_half_cycle = (15E-09*$factor)"
+echo ""
+echo "include \"array\""
+

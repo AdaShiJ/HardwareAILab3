@@ -1,0 +1,12 @@
+
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/NMOS_VTG.inc'
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/PMOS_VTG.inc'
+
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/NMOS_VTL.inc'
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/PMOS_VTL.inc'
+
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/NMOS_VTH.inc'
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/PMOS_VTH.inc'
+
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/NMOS_THKOX.inc'
+.inc '/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/tran_models/models_ff/PMOS_THKOX.inc'

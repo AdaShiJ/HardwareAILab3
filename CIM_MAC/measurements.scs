@@ -1,0 +1,78 @@
+#!bin/csh
+
+simulator lang = spice
+
+.meas	tran	0_Vbl	AVG	V(BL)	from	T1e_0d	to	T2s_0d
+.meas	tran	0_Vbls	AVG	V(BLS)	from	T1e_0d	to	T2s_0d
+.meas	tran	0_RefP	AVG	V(VRef_P)	from	T1e_0d	to	T2s_0d
+.meas	tran	0_RefN	AVG	V(VRef_N)	from	T1e_0d	to	T2s_0d
+.meas	tran	0_RefBias	AVG	V(VREF)	from	T1e_0d	to	T2s_0d
+.meas	tran	Ibl	AVG	I(M0)	from	T1e_0d	to	T2s_0d
+.meas	tran	Iblavg	AVG	I(M0)	from	T1e_0	to	T4e_11d
+
+.meas	tran	IIref	AVG	I(IREFBias.M1)	from	T1e_0	to	T4e_11d
+.meas	tran	IIrefn	AVG	I(IREFP.M1)	from	T1e_0	to	T4e_11d
+.meas	tran	IIrefp	AVG	I(IREFN.M1)	from	T1e_0	to	T4e_11d
+
+.meas	tran	1_VxN	AVG	V(VX_N)	from	T1e_0d	to	T2s_0d
+.meas	tran	1_VnxN	AVG	V(NVX_N)	from	T1e_0d	to	T2s_0d
+.meas	tran	1_Vgnd	AVG	V(IDA.net10)	from	T1e_0d	to	T2s_0d
+.meas	tran	1_Iin	AVG	I(IDA.M1)	from	T1e_0d	to	T2s_0d
+.meas	tran	1_Iout	AVG	I(IDA.M0)	from	T1e_0d	to	T2s_0d
+.meas	tran	ItotN	AVG	I(IDA.M2)	from	T1e_0d	to	T2s_0d
+.meas	tran	ItotNavg	AVG	I(IDA.M2)	from	T1e_0	to	T4e_11d
+
+.meas	tran	2_VxP	AVG	V(VX_P)	from	T1e_0d	to	T2s_0d
+.meas	tran	2_VnxP	AVG	V(NVX_P)	from	T1e_0d	to	T2s_0d
+.meas	tran	2_Vgnd	AVG	V(IDA2.net10)	from	T1e_0d	to	T2s_0d
+.meas	tran	2_Iin	AVG	I(IDA2.M1)	from	T1e_0d	to	T2s_0d
+.meas	tran	2_Iout	AVG	I(IDA2.M0)	from	T1e_0d	to	T2s_0d
+.meas	tran	ItotP	AVG	I(IDA2.M2)	from	T1e_0d	to	T2s_0d
+.meas	tran	ItotPavg	AVG	I(IDA2.M2)	from	T1e_0	to	T4e_11d
+
+.meas	tran	VOUT	AVG	V(VOUT)	from	T1e_10d	to	T2s_10d
+
+.meas	tran	rise1_time	when	V(NPULSE)=0.5	rise=3	td=T1e_0d
+.meas	tran	rise2_time	when	V(NPULSE)=0.5	rise=4	td=T1e_0d
+.meas	tran	Pulse_Width	param='rise2_time - rise1_time'
+.meas	tran	PW_ps	param='1E+12*Pulse_Width'
+.meas	tran	NoPulses	param='(T1s_11d-T2s_4d)/Pulse_Width'
+
+.meas	tran	Q0	AVG	V(Q0)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q1	AVG	V(Q1)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q2	AVG	V(Q2)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q3	AVG	V(Q3)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q4	AVG	V(Q4)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q5	AVG	V(Q5)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q6	AVG	V(Q6)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q7	AVG	V(Q7)	from	T3s_11d	to	T4e_11d
+.meas	tran	Q8	AVG	V(Q8)	from	T3s_11d	to	T4e_11d
+
+.meas	tran	Dig	param='128*Q7 + 64*Q6 + 32*Q5 + 16*Q4 + 8*Q3 + 4*Q2 + 2*Q1 + Q0'
+.meas	tran	Dig1	param='Dig/1.1'
+.meas	tran	Digi	param=INT(Dig1)
+.meas	tran	Digital	param=NINT(Dig1)
+
+.meas	tran	IIVDD	AVG	I(Vdd0)	from	T1e_0	to	T4e_11d
+.meas	tran	IIVDDP	AVG	I(Vddp0)	from	T1e_0	to	T4e_11d
+.meas	tran	IIVDDC	AVG	I(Vddc0)	from	T1e_0	to	T4e_11d
+.meas	tran	IIVSS	AVG	I(Vss0)	from	T1e_0	to	T4e_11d
+
+.meas	tran	IVDD	INTG	I(Vdd0)	from	T1e_0	to	T4e_11d
+.meas	tran	IVDDP	INTG	I(Vddp0)	from	T1e_0	to	T4e_11d
+.meas	tran	IVDDC	INTG	I(Vddc0)	from	T1e_0	to	T4e_11d
+.meas	tran	IVSS	INTG	I(Vss0)	from	T1e_0	to	T4e_11d
+
+.meas	tran	TotLatency	param='delay + (clockslew+half_cycle)*4 + end_half_cycle + check_half_cycle'
+.meas	tran	TotEnergyVSS	param='vddval*IVSS'
+.meas	tran	TotPower	param='TotEnergyVSS/TotLatency'
+
+# // minimum/normalized width of devices = 120nm
+
+.meas	tran	Area	param='120n*((mgate + mdiode + mpdiode)*len + (mps + mpRefBias + mnRefBias + mpRef1 + mnRef1 + mpRef2 + mnRef2)*len + (2*mpAmp1 + 2*mnAmp1 + mngAmp1)*lenAmp1 + (2*mpAmp2 + 2*mnAmp2 + mngAmp2)*lenAmp2 + 5*(mp + mn + mns)*len + (mp2n + 2*mn2n)*len + 8*(2*mpinv + 3*mninv + 2*mpcas + 2*mncas + mpass+ mnass)*len)'
+
+# // post-layout factor = 2.5
+
+.meas	tran	TotArea	param='2.5*Area'
+
+##################

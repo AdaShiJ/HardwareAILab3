@@ -1,0 +1,61 @@
+simulator lang=spectre
+global 0
+
+// # change the path of the library files
+include "/home/abhairajsingh/bulk/libraries/NCSU-FreePDK45-1.4/FreePDK45/ncsu_basekit/models/hspice/hspice_nom.include"
+
+include "../../options.scs" 
+include "../../subckt.scs" 
+
+// # SL Driver
+M3 (BLS VX_P VDD VDD) PMOS_VTL l=len w=120.0n m=mpdiode
+IREFBias (PGB VREF VDD VSS) REF_BIAS
+IREFP (VREF VRef_P PGB VDD VSS) REFP
+IDA2 (NVX_P VREF VDD BLS VX_P VRef_P VSS) DA_N2
+
+// # Xbar
+RONs (BL BLS) resistor r=ResON/(non+0.0001)
+ROFFs (BL BLS) resistor r=ResOFF/Rows-non+0.0001)
+
+// # BL Driver
+IDA (NVX_N VREF VDD BL VX_N VRef_N VSS) DA_N
+IREFN (VREF VRef_N PGB VDD VSS) REFN
+M0 (BL VX_N VSSE VSS) NMOS_VTL l=len w=120.0n m=mdiode
+MPG (VSSE PG VSS VSS) NMOS_VTL l=len w=120.0n m=mgate
+
+MPPGB (PGB PG VDD VDD) PMOS_VTL l=len w=120.0n m=mpinv
+MPGB (PGB PG VSS VSS) NMOS_VTL l=len w=120.0n m=mninv
+
+// # S/H transmission gate
+MPENB (ENB EN VDD VDD) PMOS_VTL l=len w=120.0n m=mpinv
+MENB (ENB EN VSS VSS) NMOS_VTL l=len w=120.0n m=mninv
+
+NPI (VX_N ENB VOUT VDD) PMOS_VTL l=len w=120.0n m=mpass
+NI (VX_N EN VOUT VSS) NMOS_VTL l=len w=120.0n m=mnass
+
+// # MPUP (VX_N VDD VDD VDD) PMOS_VTL l=len w=120.0n m=mpinv
+
+// # Ring Oscillator
+IChain (In Out1 Out2 Out3 Out4 VDDC VSS VOUT) InvChain5_footer
+
+// # Pre-Counter
+MPPulse (PULSE In VDDP VDDP) PMOS_VTL l=len w=120.0n m=mp2n
+MPulse1 (PULSE In VSS1 VSS) NMOS_VTL l=len w=120.0n m=mn2n
+MPulse2 (VSS1 In VSS VSS) NMOS_VTL l=len w=120.0n m=mn2n
+
+MPPulseB (NPULSE PULSE VDDP VDDP) PMOS_VTL l=len w=120.0n m=mpinv
+MPulseB (NPULSE PULSE VSS VSS) NMOS_VTL l=len w=120.0n m=mninv
+
+// # Counter
+ICounter PULSE NPULSE Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 VDDP VSS b9counter
+
+CapVN (VX_N VSS) capacitor c=1.0f
+CapVOUT (VOUT VSS) capacitor c=1.0f
+// # CapENB (ENB VSS) capacitor c=5f
+
+simulator lang = spice
+
+.include ./../../clk_stimuli.scs 
+.include ./../../measurements.scs
+
+// ###############

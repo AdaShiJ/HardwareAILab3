@@ -1,0 +1,17 @@
+#
+echo "nl0	Totlatency	TotArea	TotPower	TotEnergyVSS" > header
+grep -i = sim/*/run/netlist.measure | grep -i "NoPulses "  | cut -f2 -d "/" > 0
+# grep -i = sim/*/run/netlist.measure | grep -i "NoPulses "  | cut -f3 -d "/" > 0a
+# grep -i = sim/*/run/netlist.measure | grep -i "NoPulses "  | cut -f4 -d "/" > 0b
+# grep -i = sim/*/run/netlist.measure | grep -i "Digital " | awk '{print$NF}' > 1
+grep -i = sim/*/run/netlist.measure | grep -i "TotLatency " | awk '{print$NF}' > 2
+grep -i = sim/*/run/netlist.measure | grep -i "TotArea " | awk '{print$NF}' > 3
+grep -i = sim/*/run/netlist.measure | grep -i "TotPower " | awk '{print$NF}' > 4
+grep -i = sim/*/run/netlist.measure | grep -i "TotEnergyVSS " | awk '{print$NF}' > 5
+
+cp -f header za
+paste 0 2 3 4 5 >> za
+
+cat za | sort -gk1 > results
+rm -f 0 2 3 4 5 header za
+

@@ -1,0 +1,60 @@
+#!bin/csh
+
+simulator lang = spice
+
+.param clockslew = 100.0p
+.param delay = 2n
+.param half_cycle = 100.0p
+# // .param end_half_cycle = 15.0n
+.param check_half_cycle = 1.0n
+.param vssval = 0.0
+.param vddval = 1.1
+.param vddpval = 1.1
+.param vddcval = 1.1
+
+.include ./cycles.scs
+
+Vss0 (VSS 0) vsource dc=vssval type=dc
+Vdd0 (VDD 0) vsource dc=vddval type=dc
+Vddp0 (VDDP 0) vsource dc=vddpval type=dc
+// # Vddc0 (VDDC 0) vsource dc=vddcval type=dc
+
+Vddc0 VDDC 0 PWL
++	T0s_0d	vssval	T1s_0d	vssval	T0s_4d	vssval	T1s_4d	vssval	T1e_4d	vddval	T2s_4d	vddval	T0s_11d	vddval	T1s_11d	vddval	T1e_11d	vssval	T2s_11d	vssval
+
+Vpg0 PG 0 PWL
++	T0s_0d	vddval	T1s_0d	vddval	T0s_3d	vddval	T1s_3d	vddval	T1e_3d	vssval	T2s_3d	vssval
+
+VEN EN 0 PWL
++	T0s_0d	vddval	T1s_0d	vddval	T1e_0d	vddval	T2s_0d	vddval	T0s_2d	vddval	T1s_2d	vddval	T1e_2d	vssval	T2s_2d	vssval
+
+# Initial Conditions
+.ic V(VX_P)=0
+.ic V(VX_N)=0
+.ic V(VOUT)=0
+
+.ic V(IChain.In)=0
+.ic V(IChain.Out1)=1
+.ic V(IChain.Out2)=0
+.ic V(IChain.Out3)=1
+.ic V(IChain.Out4)=0
+
+.ic V(ICounter.Q0)=0
+.ic V(ICounter.Q1)=0
+.ic V(ICounter.Q2)=0
+.ic V(ICounter.Q3)=0
+.ic V(ICounter.Q4)=0
+.ic V(ICounter.Q5)=0
+.ic V(ICounter.Q6)=0
+.ic V(ICounter.Q7)=0
+.ic V(ICounter.Q8)=0
+
+.ic V(ICounter.QB0)=1
+.ic V(ICounter.QB1)=1
+.ic V(ICounter.QB2)=1
+.ic V(ICounter.QB3)=1
+.ic V(ICounter.QB4)=1
+.ic V(ICounter.QB5)=1
+.ic V(ICounter.QB6)=1
+.ic V(ICounter.QB7)=1
+.ic V(ICounter.QB8)=1

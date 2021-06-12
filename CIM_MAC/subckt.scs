@@ -1,0 +1,86 @@
+#!bin/csh
+
+subckt DA_N NVOUT VBIAS VDD VIN VOUT VREF VSS
+    M4 (VOUT NVOUT VDD VDD) PMOS_VTL l=lenAmp1 w=120.0n m=mpAmp1
+    M3 (VDD NVOUT NVOUT VDD) PMOS_VTL l=lenAmp1 w=120.0n m=mpAmp1
+    M1 (NVOUT VIN net10 VSS) NMOS_VTL l=lenAmp1 w=120.0n m=mnAmp1
+    M0 (net10 VREF VOUT VSS) NMOS_VTL l=lenAmp1 w=120.0n m=mnAmp1
+    M2 (net10 VBIAS VSS VSS) NMOS_VTL l=lenAmp1 w=120.0n m=mngAmp1
+ends DA_N
+
+subckt DA_N2 NVOUT VBIAS VDD VIN VOUT VREF VSS
+    M4 (VOUT NVOUT VDD VDD) PMOS_VTL l=lenAmp2 w=120.0n m=mpAmp2
+    M3 (VDD NVOUT NVOUT VDD) PMOS_VTL l=lenAmp2 w=120.0n m=mpAmp2
+    M1 (NVOUT VIN net10 VSS) NMOS_VTL l=lenAmp2 w=120.0n m=mnAmp2
+    M0 (net10 VREF VOUT VSS) NMOS_VTL l=lenAmp2 w=120.0n m=mnAmp2
+    M2 (net10 VBIAS VSS VSS) NMOS_VTL l=lenAmp2 w=120.0n m=mngAmp2
+ends DA_N2
+
+subckt REF_BIAS PGB VREF VDD VSS
+    MPG (VDDE PGB VDD VDD) PMOS_VTL l=len w=120.0n m=mps
+    M6 (VREF VREF VDDE VDD) PMOS_VTL l=len w=120.0n m=mpRefBias
+    M1 (VREF VREF VSS VSS) NMOS_VTL l=len w=120.0n m=mnRefBias
+ends REF_BIAS
+
+subckt InvChain5_footer In Out1 Out2 Out3 Out4 VDD VSS VFoot
+    M11 (Out4 Out3 VDD VDD) PMOS_VTG l=len w=120.0n m=mp
+    M10 (In Out4 VDD VDD) PMOS_VTG l=len w=120.0n m=mp
+    M6 (Out1 In VDD VDD) PMOS_VTG l=len w=120.0n m=mp
+    M7 (Out2 Out1 VDD VDD) PMOS_VTG l=len w=120.0n m=mp
+    M8 (Out3 Out2 VDD VDD) PMOS_VTG l=len w=120.0n m=mp
+    M12 (VGND1 VFoot VSS VSS) NMOS_VTG l=len w=120.0n m=mns
+    Moo (VGND VFoot VGND1 VSS) NMOS_VTG l=len w=120.0n m=mns
+    M4 (Out3 Out2 VGND VSS) NMOS_VTG l=len w=120.0n m=mn
+    M3 (Out2 Out1 VGND VSS) NMOS_VTG l=len w=120.0n m=mn
+    M1 (Out1 In VGND VSS) NMOS_VTG l=len w=120.0n m=mn
+    M5 (Out4 Out3 VGND VSS) NMOS_VTG l=len w=120.0n m=mn
+    M9 (In Out4 VGND VSS) NMOS_VTG l=len w=120.0n m=mn
+ends InvChain5_footer
+
+subckt REFP VBIAS VREF PGB VDD VSS
+    MPG (VDDE PGB VDD VDD) PMOS_VTL l=len w=120.0n m=mpinv
+    M6 (VREF VREF VDDE VDD) PMOS_VTL l=len w=120.0n m=mpRef2
+    M1 (VREF VBIAS VSS VSS) NMOS_VTL l=len w=120.0n m=mnRef2
+ends REFP
+
+subckt REFN VBIAS VREF PGB VDD VSS
+    MPG (VDDE PGB VDD VDD) PMOS_VTL l=len w=120.0n m=mpinv
+    M6 (VREF VREF VDDE VDD) PMOS_VTL l=len w=120.0n m=mpRef1
+    M1 (VREF VBIAS VSS VSS) NMOS_VTL l=len w=120.0n m=mnRef1
+ends REFN
+
+# alt2
+subckt alt2_latch CLKB CLK D Q QB VDD VSS
+NP1 (net018 CLK D VDD) PMOS_VTG l=len w=120.0n m=mpass
+N1 (net018 CLKB D VSS) NMOS_VTG l=len w=120.0n m=mnass
+
+NP27 (QB net018 VDD VDD) PMOS_VTG l=len w=120.0n m=mpinv
+N26 (QB net018 QB1 VSS) NMOS_VTG l=len w=120.0n m=mninv
+N25 (QB1 net018 VSS VSS) NMOS_VTG l=len w=120.0n m=mninv
+
+NP15 (net017 CLKB VDD VDD) PMOS_VTG l=len w=120.0n m=mpcas
+NP16 (net018 QB net017 VDD) PMOS_VTG l=len w=120.0n m=mpcas
+N17 (net018 QB net023 VSS) NMOS_VTG l=len w=120.0n m=mncas
+N14 (net023 CLK VSS VSS) NMOS_VTG l=len w=120.0n m=mncas
+
+NP2 (Q QB VDD VDD) PMOS_VTG l=len w=120.0n m=mpinv
+N2 (Q QB VSS VSS) NMOS_VTG l=len w=120.0n m=mninv
+ends alt2_latch
+
+# instances
+subckt ff2 CLK CLKB D Q QB VDD VSS
+	Il21 (CLK CLKB D Qi QBi VDD VSS) alt2_latch
+	Il22 (CLKB CLK Qi Q QB VDD VSS) alt2_latch
+ends ff2
+
+subckt b9counter CLK CLKB Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 VDD VSS
+	Iff0 (CLK CLKB QB0 Q0 QB0 VDD VSS) ff2
+	Iff1 (Q0 QB0 QB1 Q1 QB1 VDD VSS) ff2
+	Iff2 (Q1 QB1 QB2 Q2 QB2 VDD VSS) ff2
+	Iff3 (Q2 QB2 QB3 Q3 QB3 VDD VSS) ff2
+	Iff4 (Q3 QB3 QB4 Q4 QB4 VDD VSS) ff2
+	Iff5 (Q4 QB4 QB5 Q5 QB5 VDD VSS) ff2
+	Iff6 (Q5 QB5 QB6 Q6 QB6 VDD VSS) ff2
+	Iff7 (Q6 QB6 QB7 Q7 QB7 VDD VSS) ff2
+	Iff8 (Q7 QB7 QB8 Q8 QB8 VDD VSS) ff2
+ends b9counter

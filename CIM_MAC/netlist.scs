@@ -1,0 +1,6 @@
+#!bin/csh
+#
+
+parameters factor1=1 len=40.0n lenAmp1=90.0n lenAmp2=90.0n 	mgate=(15.0*1) mdiode=(2.2*1) mpdiode=(3.7*1) 	mps=1 mpRefBias=1 mnRefBias=1.44 	mpRef1=1.43 mnRef1=1 	mpRef2=2.15 mnRef2=1 	mpAmp1=(1.0*1) mnAmp1=(4.1*1) mngAmp1=(4.4*1) 	mpAmp2=(1.0*1) mnAmp2=(2.0*1) mngAmp2=(4.4*1) 	mp=1 mn=1 mns=1 	non=32 	ResOFF=100k ResON=10k Rows=64 	mp2n=6 mn2n=1 	mpinv=2.5 mninv=1 	mpcas=2.5 mncas=1 	mpass=1 mnass=1 	end_half_cycle = (15E-09*1)
+
+include "array"
